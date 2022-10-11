@@ -29,7 +29,7 @@ namespace GildedRose
 
         public int Quality { get; set; }
 
-        public virtual void UpdateItemQuality() {}
+        public virtual void UpdateItemQuality() {} //We pray that the goblin does not kill us for this
         
     }
 
@@ -54,7 +54,6 @@ namespace GildedRose
                 {
                     Quality -= 2;
                 }
-                
             } 
             else 
             {  
@@ -81,28 +80,23 @@ namespace GildedRose
         public override void UpdateItemQuality()
         {
             SellIn -= 1;
-            
-            if (SellIn > 10)
+            if (SellIn > 10) // 11 and above 
             {
                 Quality += 1;
             }
-            else if (SellIn > 5)
+            else if (SellIn > 5) // 10-6 
             {
                 Quality += 2;
             }
-            else if (SellIn >= 0)
+            else if (SellIn >= 0) // 5-0
             {
                 Quality += 3;
             }
-            else 
+            else // if below 0 
             {
                 Quality = 0;
             }
-         
-            
             if (Quality > 50) Quality = 50;
-            
         }
     }
-
 }

@@ -226,4 +226,62 @@ public class ProgramTests
         // Then
         program.Items[0].Should().BeEquivalentTo(new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 1, Quality = 50 });
     }
+
+    [Fact]
+    public void itemQualityGoingDownTwiceAsFastForConjured()
+    {
+        // Given
+        NormalItem cake = new NormalItem
+                {
+                    Name = "conjured carrot cake",
+                    SellIn = 2,
+                    Quality = 50,
+                    isConjured = true
+                };
+        IList<Item> items = new List<Item>{cake};
+        Program program = new Program() { Items = items };
+
+        // When
+
+        program.UpdateQuality();
+
+        // Then
+        program.Items[0].Should().BeEquivalentTo(new Item { Name = "conjured carrot cake", SellIn = 1, Quality = 48 });
+
+        // When again
+
+        program.UpdateQuality();
+
+        // Then again
+        program.Items[0].Should().BeEquivalentTo(new Item { Name = "conjured carrot cake", SellIn = 0, Quality = 46 });
+    }
+
+    [Fact]
+    public void itemQualityGoingDown4XForSellinBeingUnderZero()
+    {
+        // Given
+        NormalItem cake = new NormalItem
+                {
+                    Name = "conjured carrot cake",
+                    SellIn = -1,
+                    Quality = 50,
+                    isConjured = true
+                };
+        IList<Item> items = new List<Item>{cake};
+        Program program = new Program() { Items = items };
+
+        // When
+
+        program.UpdateQuality();
+
+        // Then
+        program.Items[0].Should().BeEquivalentTo(new Item { Name = "conjured carrot cake", SellIn = -2, Quality = 46 });
+
+        // When again
+
+        program.UpdateQuality();
+
+        // Then again
+        program.Items[0].Should().BeEquivalentTo(new Item { Name = "conjured carrot cake", SellIn = -3, Quality = 42 });
+    }
 }
